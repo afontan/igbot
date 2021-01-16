@@ -8,8 +8,8 @@
 import argparse
 import os
 import sys
-import time
 import random
+import time
 
 sys.path.append(os.path.join(sys.path[0], "../"))
 from instabot import Bot  # noqa: E402
@@ -18,7 +18,6 @@ parser = argparse.ArgumentParser(add_help=True)
 parser.add_argument("-u", type=str, help="username")
 parser.add_argument("-p", type=str, help="password")
 parser.add_argument("-proxy", type=str, help="proxy")
-parser.add_argument("users", type=str, nargs="+", help="users")
 args = parser.parse_args()
 bot = Bot(
     filter_users=True,
@@ -29,21 +28,23 @@ bot = Bot(
     max_followers_to_follow=1000000,
     max_following_to_follow=200000,
     follow_delay=1,
-    max_follows_per_day=100000
+    max_follows_per_day=100000,
+    max_comments_per_day=10000
 )
 bot.login(username=args.u, password=args.p, proxy=args.proxy)
 
-id = bot.get_user_id_from_username("pretty_woman_ok")
-followers = bot.get_user_followers(id)
-bot.console_print(str(len(followers)), "red")
-followers = list(set(followers) - bot.followed_file.set - bot.skipped_file.set)
-bot.console_print(str(len(followers)), "red")
-for follower in followers:
-    result = bot.follow(follower)
-    if result:
-        sleepTime = random.randint(15, 24)
-        bot.console_print("Will sleep for " + str(sleepTime) + " seconds.", "green")
-        time.sleep(sleepTime)
+media_id = bot.get_media_id_from_link("https://www.instagram.com/p/CJmd49VgYT7/?igshid=13g2yiy5zex8o")
+
+user_id = bot.get_user_id_from_username("lu__psiloveu")
+
+following = bot.get_user_following(user_id)
+
+for i in range(0, 1000):
+    index = random.randint(0, len(following)-1)
+    username = bot.get_username_from_user_id(following[index])
+    bot.comment(media_id, '@'+username)
+    print("Comment "+str(i)+": "+"@"+username)
+    time.sleep(10)
 
 #for username in args.users:
     #bot.follow_followers(username)

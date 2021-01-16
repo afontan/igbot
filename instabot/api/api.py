@@ -245,7 +245,7 @@ class API(object):
 
         base64_encoded_payload = base64.b64encode(payload)
 
-        return f"#PWD_INSTAGRAM:4:{time}:{base64_encoded_payload.decode()}"
+        return "#PWD_INSTAGRAM:4:{time}:{base64_encoded_payload.decode()}"
 
     def login(
         self,
@@ -595,6 +595,7 @@ class API(object):
                 except Exception:
                     pass
             if response.status_code == 429:
+                print(response)
                 # if we come to this error, add 5 minutes of sleep everytime we hit the 429 error (aka soft bann) keep increasing untill we are unbanned
                 if timeout_minutes is None:
                     timeout_minutes = 0

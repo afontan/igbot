@@ -159,9 +159,9 @@ class Bot(object):
         filter_previously_followed=False,
         filter_business_accounts=False,
         filter_verified_accounts=False,
-        max_followers_to_follow=5000,
+        max_followers_to_follow=500000,
         min_followers_to_follow=10,
-        max_following_to_follow=2000,
+        max_following_to_follow=200000,
         min_following_to_follow=10,
         max_followers_to_following_ratio=15,
         max_following_to_followers_ratio=15,
@@ -198,6 +198,8 @@ class Bot(object):
         )
         self.log_follow_unfollow = log_follow_unfollow
         self.base_path = base_path
+
+        self.console_print("Init bot", "green")
 
         self.state = BotState()
 

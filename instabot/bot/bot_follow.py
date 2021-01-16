@@ -109,7 +109,7 @@ def follow_users(self, user_ids, nfollows=None):
                 try_number = 3
                 error_pass = False
                 for _ in range(try_number):
-                    time.sleep(60)
+                    time.sleep(1)
                     error_pass = self.follow(user_id)
                     if error_pass:
                         break
@@ -133,7 +133,9 @@ def follow_followers(self, user_id, nfollows=None):
     if not user_id:
         self.logger.info("User not found.")
         return
+    self.logger.info("Ready to get user followers")
     followers = self.get_user_followers(user_id, nfollows)
+    self.logger.info("Finish to get user followers")
     followers = list(set(followers) - set(self.blacklist))
     if not followers:
         self.logger.info("{} not found / closed / has no followers.".format(user_id))
